@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container">
+    <p><input type="text" id="result"></p>
+    <p><div id="btn">Generate Password</div></p>
+    <fieldset>
+        <legend>Options</legend>
+        <p>Length:(<span id="label">8</span>) <input type="range" id="slider" value="8" min="4" max="20"></p>
+
+        <p>
+            Numbers?: <input type="checkbox" id="numbers">
+        </p>
+        <p>
+            Symbols?: <input type="checkbox" id="symbols">
+        </p>
+    </fieldset>
+
+    <script>
+    (function(){
+    'use strict';
+
+    var slider = document.getElementById('slider');
+    var label = document.getElementById('label');
+    var btn = document.getElementById('btn');
+    var result = document.getElementById('result');
+    var numbers = document.getElementById('numbers');
+    var symbols = document.getElementById('symbols');
+
+
+    function getPassword() {
+        var len = slider.value; //スライダーから値を取得
+        var pwd = '';  //結果が返ってくる配列
+        var seed_letters = 'abcdefjhigklmnopqrstuvwxyz';
+        var seed_numbers = '0123456789';
+        var seed_symbols = '!#$%&()';
+
+        var len = slider.value;
+        var pwd = '';
+
+        var seed = seed_letters + seed_letters.toUpperCase();
+
+        if(numbers.checked === true) {
+            seed += seed_numbers;
+        }
+
+        if(symbols.checked) {
+            seed += seed_symbols;
+        }
+
+        //スライダーで指定した文字の長さ分だけforでループする
+        for(var i = 0;i < len; i++) {
+            pwd += seed[Math.floor(Math.random() * seed.length)];
+        }
+        result.value = pwd;
+    }
+
+    //値が変更になった時に以下の処理
+    slider.addEventListener('change',function(){
+        label.innerHTML = this.value;
+    });
+
+    //ボタンがクリックされた時に以下の処理
+    btn.addEventListener('click',function(){
+        getPassword();
+        // result.value = 'test';
+    });
+
+    //textがクリックされたら全選択になるようにする
+    result.addEventListener('click',function(){
+        this.select();
+    });
+
+
+
+
+})();
+    </script>
+</div>
+</body>
+</html>
